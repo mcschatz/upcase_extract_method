@@ -22,10 +22,10 @@ class ReceiptPrinter
 
     def receipt_output
       output.puts divider
-      output.puts "subtotal: #{sprintf('$%.2f', subtotal)}"
-      output.puts "tax: #{sprintf('$%.2f', calculate_tax)}"
+      output.puts "subtotal: #{format_amount(subtotal)}"
+      output.puts "tax: #{format_amount(calculate_tax)}"
       output.puts divider
-      output.puts "total: #{sprintf('$%.2f', subtotal + calculate_tax)}"
+      output.puts "total: #{format_amount(total_and_tax)}"
     end
 
     def calculate_subtotal
@@ -48,10 +48,18 @@ class ReceiptPrinter
     end
 
     def print_item(item)
-      output.puts "#{item}: #{sprintf('$%.2f', item_cost(item))}"
+      output.puts "#{item}: #{format_amount(item_cost(item))}"
     end
 
     def add_to_sum(sum, item)
       sum + item_cost(item).to_i
+    end
+
+    def format_amount(amount)
+      sprintf('$%.2f', amount)
+    end
+
+    def total_and_tax
+      subtotal + calculate_tax
     end
 end
